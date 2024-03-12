@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use Mockery\MockInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Skraeda\AutoMapper\AutoMapperCache;
 use Skraeda\AutoMapper\Contracts\AutoMapperScriptLoaderContract;
@@ -45,17 +46,7 @@ class AutoMapperCacheTest extends TestCase
         $this->mockLoader = Mockery::mock(AutoMapperScriptLoaderContract::class);
     }
 
-    /** @test */
-    public function itRaisesExceptionIfGetWithNonString()
-    {
-        $this->expectException(AutoMapperCacheException::class);
-
-        $cache = new AutoMapperCache($this->mockLoader, $this->mockFs, __DIR__);
-
-        $cache->get([]);
-    }
-
-    /** @test */
+    #[Test]
     public function itRaisesExceptionIfGetWithStringDoesntEndInPhp()
     {
         $this->expectException(AutoMapperCacheException::class);
@@ -65,7 +56,7 @@ class AutoMapperCacheTest extends TestCase
         $cache->get('key');
     }
 
-    /** @test */
+    #[Test]
     public function itLoadsDefaultIfFileDoesntExistOnGet()
     {
         $default = 123;
@@ -77,7 +68,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertEquals($default, $cache->get('key.php', $default));
     }
 
-    /** @test */
+    #[Test]
     public function itThrowsExceptionIfFailingToLoadFile()
     {
         $this->expectException(AutoMapperCacheException::class);
@@ -92,7 +83,7 @@ class AutoMapperCacheTest extends TestCase
         $cache->get($file);
     }
 
-    /** @test */
+    #[Test]
     public function itLoadsFileIfItExists()
     {
         $file = 'exists.php';
@@ -105,7 +96,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertEquals('value', $cache->get($file));
     }
 
-    /** @test */
+    #[Test]
     public function itCanSetAFile()
     {
         $file = 'cache.php';
@@ -122,7 +113,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertTrue($cache->set($file, 'foo'));
     }
 
-    /** @test */
+    #[Test]
     public function itRemovesFileIfItIsUnableToLoadIt()
     {
         $this->expectException(AutoMapperCacheException::class);
@@ -142,7 +133,7 @@ class AutoMapperCacheTest extends TestCase
         $cache->set($file, 'foo');
     }
 
-    /** @test */
+    #[Test]
     public function itDeletesAFileIfItExists()
     {
         $file = 'delete.php';
@@ -157,7 +148,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertTrue($cache->delete($file));
     }
 
-    /** @test */
+    #[Test]
     public function itCanClearCacheDir()
     {
         $this->mockFs->shouldReceive('cleanDirectory')->with('someDir')->andReturn(true);
@@ -167,7 +158,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertTrue($cache->clear('someDir'));
     }
 
-    /** @test */
+    #[Test]
     public function itCanSayIfCacheKeyExists()
     {
         $file = 'exists.php';
@@ -181,7 +172,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertTrue($cache->has($file));
     }
 
-    /** @test */
+    #[Test]
     public function itCanGetMultiple()
     {
         $key1 = 'ananas.php';
@@ -203,17 +194,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertEquals('foo', $results[$key2]);
     }
 
-    /** @test */
-    public function itCanNotSetMultipleWithInvalidKeys()
-    {
-        $this->expectException(AutoMapperCacheException::class);
-
-        $cache = new AutoMapperCache($this->mockLoader, $this->mockFs, __DIR__);
-
-        $cache->setMultiple(10);
-    }
-
-    /** @test */
+    #[Test]
     public function itCanSetMultiple()
     {
         $key1 = 'epli.php';
@@ -236,7 +217,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertTrue($cache->setMultiple([ $key1 => 'foo', $key2 => 'bar' ]));
     }
 
-    /** @test */
+    #[Test]
     public function itCanDeleteMultiple()
     {
         $key1 = 'delete1.php';
@@ -255,7 +236,7 @@ class AutoMapperCacheTest extends TestCase
         $this->assertTrue($cache->deleteMultiple([$key1, $key2]));
     }
 
-    /** @test */
+    #[Test]
     public function itReturnsFalseIfItFailsToDeleteMultiple()
     {
         $key1 = 'delete1.php';

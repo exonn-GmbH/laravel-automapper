@@ -3,6 +3,7 @@
 namespace Skraeda\AutoMapper\Tests;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Skraeda\AutoMapper\AutoMapperFinder;
 use Skraeda\AutoMapper\Exceptions\AutoMapperFinderException;
 use Skraeda\AutoMapper\Providers\AutoMapperServiceProvider;
@@ -17,7 +18,7 @@ use Skraeda\AutoMapper\Tests\Data\B;
  */
 class AutoMapperFinderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itCanScanDirectoriesForCustomMappers()
     {
         $finder = new AutoMapperFinder(__DIR__, 'Skraeda\\AutoMapper\\Tests\\');
@@ -29,7 +30,7 @@ class AutoMapperFinderTest extends TestCase
         $this->assertEquals(B::class, $mappers[ABMapper::class]['target']);
     }
 
-    /** @test */
+    #[Test]
     public function itCanScanSingleDirectoryForCustomMappers()
     {
         $finder = new AutoMapperFinder(__DIR__, 'Skraeda\\AutoMapper\\Tests\\');
@@ -41,7 +42,7 @@ class AutoMapperFinderTest extends TestCase
         $this->assertEquals(B::class, $mappers[ABMapper::class]['target']);
     }
 
-    /** @test */
+    #[Test]
     public function itRaisesExceptionIfItFindsNonMappersWhenScanning()
     {
         $this->expectException(AutoMapperFinderException::class);
@@ -49,7 +50,7 @@ class AutoMapperFinderTest extends TestCase
         (new AutoMapperFinder(__DIR__))->scanMappingDirectory('cache');
     }
 
-    /** @test */
+    #[Test]
     public function itReturnsEmptyArrayIfNoPathsAreActuallyFound()
     {
         $finder = new AutoMapperFinder(__DIR__, 'Skraeda\\AutoMapper\\Tests\\');

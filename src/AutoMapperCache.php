@@ -32,7 +32,7 @@ class AutoMapperCache implements AutoMapperCacheContract
      * {@inheritDoc}
      * @throws \Skraeda\AutoMapper\Exceptions\AutoMapperCacheException
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         $this->validateKey($key);
 
@@ -53,7 +53,7 @@ class AutoMapperCache implements AutoMapperCacheContract
      * {@inheritDoc}
      * @throws \Skraeda\AutoMapper\Exceptions\AutoMapperCacheException
      */
-    public function set($key, $value, $ttl = null)
+    public function set(string $key, mixed $value, \DateInterval|int|null $ttl = null): bool
     {
         $this->validateKey($key);
 
@@ -80,7 +80,7 @@ class AutoMapperCache implements AutoMapperCacheContract
      * {@inheritDoc}
      * @throws \Skraeda\AutoMapper\Exceptions\AutoMapperCacheException
      */
-    public function delete($key)
+    public function delete(string $key): bool
     {
         $this->validateKey($key);
 
@@ -96,7 +96,7 @@ class AutoMapperCache implements AutoMapperCacheContract
     /**
      * {@inheritDoc}
      */
-    public function clear()
+    public function clear(): bool
     {
         return $this->fs->cleanDirectory($this->dir);
     }
@@ -105,7 +105,7 @@ class AutoMapperCache implements AutoMapperCacheContract
      * {@inheritDoc}
      * @throws \Skraeda\AutoMapper\Exceptions\AutoMapperCacheException
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         $this->validateKey($key);
 
@@ -118,7 +118,7 @@ class AutoMapperCache implements AutoMapperCacheContract
      * {@inheritDoc}
      * @throws \Skraeda\AutoMapper\Exceptions\AutoMapperCacheException
      */
-    public function getMultiple($keys, $default = null)
+    public function getMultiple(\Traversable|array $keys, mixed $default = null): \Traversable|array
     {
         $this->validateKeyArray($keys);
 
@@ -135,7 +135,7 @@ class AutoMapperCache implements AutoMapperCacheContract
      * {@inheritDoc}
      * @throws \Skraeda\AutoMapper\Exceptions\AutoMapperCacheException
      */
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple(\Traversable|array $values, \DateInterval|int|null $ttl = null): bool
     {
         $this->validateKeyArray($values);
 
@@ -150,7 +150,7 @@ class AutoMapperCache implements AutoMapperCacheContract
      * {@inheritDoc}
      * @throws \Skraeda\AutoMapper\Exceptions\AutoMapperCacheException
      */
-    public function deleteMultiple($keys)
+    public function deleteMultiple(\Traversable|array $keys): bool
     {
         $this->validateKeyArray($keys);
 

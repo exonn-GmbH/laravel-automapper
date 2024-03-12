@@ -5,12 +5,13 @@ namespace Skraeda\AutoMapper\Tests\Providers;
 use Illuminate\Support\Collection;
 use Mockery;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Skraeda\AutoMapper\AutoMapper;
 use Skraeda\AutoMapper\Contracts\AutoMapperCacheContract;
-use Skraeda\AutoMapper\Support\Facades\AutoMapperFacade;
-use Skraeda\AutoMapper\Providers\AutoMapperServiceProvider;
 use Skraeda\AutoMapper\Contracts\AutoMapperContract;
 use Skraeda\AutoMapper\Contracts\AutoMapperFinderContract;
+use Skraeda\AutoMapper\Providers\AutoMapperServiceProvider;
+use Skraeda\AutoMapper\Support\Facades\AutoMapperFacade;
 use Skraeda\AutoMapper\Tests\Data\A;
 use Skraeda\AutoMapper\Tests\Data\ABMapper;
 use Skraeda\AutoMapper\Tests\Data\B;
@@ -23,27 +24,27 @@ use Skraeda\AutoMapper\Tests\Data\B;
 class AutoMapperServiceProviderTest extends TestCase
 {
     /**
-     * @test
      * @environment-setup useDefault
      **/
+    #[Test]
     public function itRegistersAnAutoMapper()
     {
         $this->assertInstanceOf(AutoMapper::class, $this->app[AutoMapperContract::class]);
     }
 
     /**
-     * @test
      * @environment-setup useCustomClasses
      **/
+    #[Test]
     public function itRegistersCustomMappings()
     {
         $this->assertEquals(2, AutoMapperFacade::map(new A, B::class)->Value);
     }
 
     /**
-     * @test
      * @environment-setup useDefault
      **/
+    #[Test]
     public function itAddsCollectionAutoMapMacro()
     {
         $coll = Collection::make([1]);
@@ -57,27 +58,27 @@ class AutoMapperServiceProviderTest extends TestCase
     }
 
     /**
-     * @test
      * @environment-setup useCache
      */
+    #[Test]
     public function itRegistersCachedMappersIfTheyExist()
     {
         $this->assertEquals(2, AutoMapperFacade::map(new A, B::class)->Value);
     }
 
     /**
-     * @test
      * @environment-setup useCacheMiss
      */
+    #[Test]
     public function itSetsCacheIfMiss()
     {
         $this->assertTrue(true);
     }
 
     /**
-     * @test
      * @environment-setup useScan
      */
+    #[Test]
     public function itScansForDirectoriesIfEnabled()
     {
         $this->assertEquals(2, AutoMapperFacade::map(new A, B::class)->Value);

@@ -2,6 +2,7 @@
 
 namespace Skraeda\AutoMapper\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Skraeda\AutoMapper\AutoMapperScriptLoader;
 use Skraeda\AutoMapper\Exceptions\AutoMapperException;
@@ -13,7 +14,7 @@ use Skraeda\AutoMapper\Exceptions\AutoMapperException;
  */
 class AutoMapperScriptLoaderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itLoadsValidScript()
     {
         $mappings = (new AutoMapperScriptLoader)->require(implode(DIRECTORY_SEPARATOR, [__DIR__, 'cache', 'automapper.php']));
@@ -21,7 +22,7 @@ class AutoMapperScriptLoaderTest extends TestCase
         $this->assertCount(1, $mappings);
     }
 
-    /** @test */
+    #[Test]
     public function itThrowsExceptionForInvalidFiles()
     {
         $this->expectException(AutoMapperException::class);
